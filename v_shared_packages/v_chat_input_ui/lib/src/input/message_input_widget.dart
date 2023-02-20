@@ -80,7 +80,7 @@ class VMessageInputWidget extends StatefulWidget {
     super.key,
     required this.onSubmitText,
     required this.onSubmitMedia,
-     this.mouseCursor = SystemMouseCursors.text,
+    this.mouseCursor = SystemMouseCursors.text,
     required this.onSubmitVoice,
     required this.onSubmitFiles,
     required this.onSubmitLocation,
