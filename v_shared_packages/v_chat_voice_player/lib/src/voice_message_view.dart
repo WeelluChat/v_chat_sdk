@@ -160,7 +160,7 @@ class VVoiceMessageView extends StatelessWidget {
                       vertical: 2,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.red,
+                      color: Colors.green,
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(

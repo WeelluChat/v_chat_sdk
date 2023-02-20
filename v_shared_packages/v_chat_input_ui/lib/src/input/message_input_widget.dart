@@ -74,13 +74,13 @@ class VMessageInputWidget extends StatefulWidget {
   ///set max upload files size default it 50 mb
   final int maxMediaSize;
 
-  final MouseCursor mouseCursor;
+  final MouseCursor? mouseCursor;
 
   const VMessageInputWidget({
     super.key,
     required this.onSubmitText,
     required this.onSubmitMedia,
-    this.mouseCursor = SystemMouseCursors.text,
+    this.mouseCursor ,
     required this.onSubmitVoice,
     required this.onSubmitFiles,
     required this.onSubmitLocation,

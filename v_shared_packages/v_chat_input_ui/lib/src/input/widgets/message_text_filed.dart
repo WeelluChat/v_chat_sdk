@@ -16,13 +16,13 @@ class MessageTextFiled extends StatefulWidget {
   final VoidCallback onShowEmoji;
   final VoidCallback onCameraPress;
   final VoidCallback onAttachFilePress;
-  final MouseCursor cursor;
+  final MouseCursor? cursor;
   final Function(String value) onSubmit;
 
   const MessageTextFiled({
     super.key,
     required this.textEditingController,
-    this.cursor = SystemMouseCursors.text,
+    this.cursor ,
     required this.focusNode,
     required this.onShowEmoji,
     required this.onCameraPress,
