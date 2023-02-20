@@ -16,11 +16,13 @@ class MessageTextFiled extends StatefulWidget {
   final VoidCallback onShowEmoji;
   final VoidCallback onCameraPress;
   final VoidCallback onAttachFilePress;
+  final MouseCursor cursor;
   final Function(String value) onSubmit;
 
   const MessageTextFiled({
     super.key,
     required this.textEditingController,
+    this.cursor = SystemMouseCursors.text,
     required this.focusNode,
     required this.onShowEmoji,
     required this.onCameraPress,
@@ -75,6 +77,7 @@ class _MessageTextFiledState extends State<MessageTextFiled> {
           child: AutoDirection(
             text: txt,
             child: TextField(
+              mouseCursor: widget.cursor,
               textCapitalization: TextCapitalization.sentences,
               controller: widget.textEditingController,
               focusNode: widget.focusNode,
