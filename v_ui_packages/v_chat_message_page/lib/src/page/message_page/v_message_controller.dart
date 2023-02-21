@@ -97,7 +97,7 @@ class VMessageController {
   }
 
   void onSubmitText(String message) {
-    final isEnable = _vConfig.enableMessageEncryption;
+    final isEnable = _vConfig.enableEndToEndMessageEncryption;
     final localMsg = VTextMessage.buildMessage(
       content: isEnable ? VMessageEncryption.encryptMessage(message) : message,
       isEncrypted: isEnable,
@@ -341,7 +341,15 @@ class VMessageController {
       );
       return;
     } else if (roomType.isSingle && toSingleSettings != null) {
-      toSingleSettings(context, vRoom.peerIdentifier!);
+      toSingleSettings(
+        context,
+        VToChatSettingsModel(
+          title: vRoom.title,
+          image: vRoom.thumbImage,
+          roomId: roomId,
+          room: vRoom,
+        ),
+      );
       return;
     } else if (roomType.isBroadcast && toBroadcastSettings != null) {
       toBroadcastSettings(
