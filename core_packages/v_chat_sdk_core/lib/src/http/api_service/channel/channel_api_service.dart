@@ -24,10 +24,10 @@ class VChannelApiService {
     return VRoom.fromMap(extractDataFromResponse(res));
   }
 
-  Future<void> closeChat(String roomId) async {
-    final res = await _channelApiService!.closeChat(roomId);
-    throwIfNotSuccess(res);
-  }
+  // Future<void> closeChat(String roomId) async {
+  //   final res = await _channelApiService!.closeChat(roomId);
+  //   throwIfNotSuccess(res);
+  // }
 
   Future<bool> changeRoomNotification({
     required String roomId,
@@ -37,6 +37,23 @@ class VChannelApiService {
         .changeRoomNotification(roomId, {"isMuted": isMuted});
     throwIfNotSuccess(res);
     return (res.body as Map<String, dynamic>)['data'] as bool;
+  }
+
+  Future<bool> transTo({
+    required String roomId,
+    required String transTo,
+  }) async {
+    final res = await _channelApiService!.transTo(roomId, {"transTo": transTo});
+    throwIfNotSuccess(res);
+    return true;
+  }
+
+  Future<bool> stopRoomAutoTranslate({
+    required String roomId,
+  }) async {
+    final res = await _channelApiService!.stopRoomAutoTranslate(roomId);
+    throwIfNotSuccess(res);
+    return true;
   }
 
   Future<bool> deleteRoom(

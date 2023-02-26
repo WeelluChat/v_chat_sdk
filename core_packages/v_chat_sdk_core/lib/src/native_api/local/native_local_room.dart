@@ -67,7 +67,7 @@ class NativeLocalRoom {
 
   Future<int> updateRoomBlock(OnBanUserChatModel ban) async {
     final event = VBlockRoomEvent(banModel: ban, roomId: ban.roomId);
-    await _roomRepo.updateBlockRoom(event);
+    // await _roomRepo.updateBlockRoom(event);
     _emitter.fire(event);
     return 1;
   }
@@ -132,5 +132,14 @@ class NativeLocalRoom {
 
   Future<void> reCreateRoomTable() {
     return _roomRepo.reCreate();
+  }
+
+  Future<void> updateTransTo({
+    required String roomId,
+    required String transTo,
+  }) async {
+    final e = VUpdateTransToEvent(roomId: roomId, transTo: transTo);
+    await _roomRepo.updateTransTo(e);
+    _emitter.fire(e);
   }
 }

@@ -46,6 +46,24 @@ class RoomApi {
     return true;
   }
 
+  Future<bool> translateRoomTo({
+    required String roomId,
+    required String transTo,
+  }) async {
+    await _vNativeApi.local.room
+        .updateTransTo(roomId: roomId, transTo: transTo);
+    await _vNativeApi.remote.room.transTo(roomId: roomId, transTo: transTo);
+    return true;
+  }
+
+  ///only works for single rooms
+  // Future<bool> blockUser(String roomId) async {
+  //   await _vNativeApi.local.room
+  //       .updateRoomBlock(OnBanUserChatModel( roomId: roomId));
+  //   // await _vNativeApi.remote.room.closeChat(roomId);
+  //   return true;
+  // }
+
   Future<bool> changeRoomNotification({
     required String roomId,
     required bool isMuted,

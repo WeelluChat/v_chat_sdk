@@ -41,12 +41,12 @@ class RecordWidgetState extends State<RecordWidget> {
   @override
   void initState() {
     super.initState();
-    recorder = PlatformRecorder();
-    // if (VPlatforms.isMobile) {
-    //   recorder = MobileRecorder();
-    // } else {
-    //   recorder = PlatformRecorder();
-    // }
+    // recorder = PlatformRecorder();
+    if (VPlatforms.isMobile) {
+      recorder = MobileRecorder();
+    } else {
+      recorder = PlatformRecorder();
+    }
     _stopWatchTimer.rawTime.listen((value) {
       recordMilli = value;
       currentTime = StopWatchTimer.getDisplayTime(
@@ -143,15 +143,17 @@ class RecordWidgetState extends State<RecordWidget> {
               const SizedBox(
                 width: 15,
               ),
-              // if (recorder is MobileRecorder)
-              //   Expanded(
-              //     child: AudioWaveforms(
-              //       size: Size(MediaQuery.of(context).size.width, 35.0),
-              //       recorderController: (recorder as MobileRecorder).recorder,
-              //     ),
-              //   )
-              // else
-                const Text("")
+              if (recorder is MobileRecorder)
+                Expanded(
+                  child: AudioWaveforms(
+                    size: Size(MediaQuery.of(context).size.width, 35.0),
+                    recorderController: (recorder as MobileRecorder).recorder,
+                  ),
+                )
+              else
+                const SizedBox(
+                  height: 10,
+                ),
             ],
           ),
           const SizedBox(

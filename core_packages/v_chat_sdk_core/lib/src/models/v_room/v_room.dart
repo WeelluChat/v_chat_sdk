@@ -23,9 +23,9 @@ class VRoom {
   bool isOnline;
   VSocketRoomTypingModel typingStatus;
   String? nickName;
+  String? transTo;
   final String? peerId;
   final String? peerIdentifier;
-  String? blockerId;
   bool isSelected = false;
 
   VRoom({
@@ -34,13 +34,13 @@ class VRoom {
     required this.enTitle,
     required this.roomType,
     required this.thumbImage,
+    required this.transTo,
     required this.isArchived,
     required this.unReadCount,
     required this.lastMessage,
     required this.createdAt,
     required this.isMuted,
     this.isOnline = false,
-    this.blockerId,
     required this.peerId,
     required this.peerIdentifier,
     required this.nickName,
@@ -50,6 +50,7 @@ class VRoom {
   VRoom.empty()
       : id = "",
         title = "",
+        transTo = null,
         thumbImage = "empty!.png",
         isArchived = false,
         roomType = VRoomType.s,
@@ -62,12 +63,12 @@ class VRoom {
         peerIdentifier = null,
         typingStatus = VSocketRoomTypingModel.offline,
         isOnline = false,
-        blockerId = null,
         peerId = null,
         lastMessage = VEmptyMessage();
 
   VRoom.fromMap(Map<String, dynamic> map)
       : id = map['rId'] as String,
+        transTo = map['tTo'] as String?,
         title = map['t'] as String,
         thumbImage = map['img'] as String,
         isArchived = map['isA'] as bool,
@@ -81,7 +82,6 @@ class VRoom {
         nickName = null,
         typingStatus = VSocketRoomTypingModel.offline,
         isOnline = false,
-        blockerId = map['bId'] as String?,
         peerId = map['pId'] as String?,
         lastMessage = map['lastMessage'] == null
             ? VEmptyMessage()
@@ -95,6 +95,7 @@ class VRoom {
             VRoomType.values.byName(map[RoomTable.columnRoomType] as String),
         title = map[RoomTable.columnTitle] as String,
         thumbImage = map[RoomTable.columnThumbImage] as String,
+        transTo = map[RoomTable.columnTransTo] as String?,
         isArchived = (map[RoomTable.columnIsArchived] as int) == 1,
         createdAt = DateTime.parse(map[RoomTable.columnCreatedAt] as String),
         enTitle = map[RoomTable.columnEnTitle] as String,
@@ -105,7 +106,6 @@ class VRoom {
         peerIdentifier = map[RoomTable.columnPeerIdentifier] as String?,
         typingStatus = VSocketRoomTypingModel.offline,
         isOnline = false,
-        blockerId = map[RoomTable.columnBlockerId] as String?,
         peerId = map[RoomTable.columnPeerId] as String?,
         lastMessage = MessageFactory.createBaseMessage(map);
 
@@ -113,6 +113,7 @@ class VRoom {
     return {
       RoomTable.columnId: id,
       RoomTable.columnTitle: title,
+      RoomTable.columnTransTo: transTo,
       RoomTable.columnThumbImage: thumbImage,
       RoomTable.columnEnTitle: enTitle,
       RoomTable.columnRoomType: roomType.name,
@@ -123,7 +124,6 @@ class VRoom {
       RoomTable.columnPeerIdentifier: peerIdentifier,
       RoomTable.columnNickName: nickName,
       RoomTable.columnPeerId: peerId,
-      RoomTable.columnBlockerId: blockerId,
     };
   }
 
@@ -139,7 +139,7 @@ class VRoom {
 
   @override
   String toString() {
-    return 'BaseRoom{id: $id, title: $title, enTitle: $enTitle, thumbImage: $thumbImage, roomType: $roomType, isArchived: $isArchived, unReadCount: $unReadCount, lastMessage: $lastMessage, isDeleted: $isDeleted, createdAt: $createdAt,}';
+    return 'BaseRoom{id: $id, title: $title, enTitle: $enTitle,transTo $transTo , thumbImage: $thumbImage, roomType: $roomType, isArchived: $isArchived, unReadCount: $unReadCount, lastMessage: $lastMessage, isDeleted: $isDeleted, createdAt: $createdAt,}';
   }
 
   ///getters
@@ -153,6 +153,8 @@ class VRoom {
     }
     return false;
   }
+
+  bool get isTransEnable => transTo != null;
 
   String? roomTypingText(BuildContext context) {
     final current = this;
@@ -175,12 +177,12 @@ class VRoom {
 
   bool get isRoomUnread => unReadCount != 0;
 
-  bool get isThereBlock => blockerId != null;
-
-  bool get isMeBlocker {
-    if (blockerId == null) return false;
-    return VAppConstants.myProfile.baseUser.vChatId == blockerId;
-  }
+  // bool get isThereBlock => blockerId != null;
+  //
+  // bool get isMeBlocker {
+  //   if (blockerId == null) return false;
+  //   return VAppConstants.myProfile.baseUser.vChatId == blockerId;
+  // }
 
   String get lastMessageTimeString =>
       DateFormat.jm().format(lastMessage.createdAtDate);
@@ -204,6 +206,7 @@ class VRoom {
           ? VSocketRoomTypingModel.typing
           : VSocketRoomTypingModel.offline,
       nickName: null,
+      transTo: null,
     );
   }
 
@@ -226,6 +229,7 @@ class VRoom {
     bool? isOnline,
     VSocketRoomTypingModel? typingStatus,
     String? nickName,
+    String? transTo,
     String? peerId,
     String? peerIdentifier,
     String? blockerId,
@@ -235,6 +239,7 @@ class VRoom {
       peerIdentifier: peerIdentifier ?? this.peerIdentifier,
       title: title ?? this.title,
       enTitle: enTitle ?? this.enTitle,
+      transTo: transTo ?? this.transTo,
       thumbImage: thumbImage ?? this.thumbImage,
       roomType: roomType ?? this.roomType,
       isArchived: isArchived ?? this.isArchived,
@@ -246,7 +251,6 @@ class VRoom {
       typingStatus: typingStatus ?? this.typingStatus,
       nickName: nickName ?? this.nickName,
       peerId: peerId ?? this.peerId,
-      blockerId: blockerId ?? this.blockerId,
     );
   }
 }

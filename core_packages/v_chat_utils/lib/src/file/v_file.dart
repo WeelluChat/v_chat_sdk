@@ -104,9 +104,9 @@ abstract class VFileUtils {
   }
 
   ///only [VPlatformFileSource.fromPath(filePath: filePath)] will work!
-  static Future<int> getVideoDurationMill(VPlatformFileSource file) async {
+  static Future<int?> getVideoDurationMill(VPlatformFileSource file) async {
     if (file.isFromBytes) {
-      return 000;
+      return null;
       // final controller = VideoPlayerController.contentUri(
       //   Uri.dataFromBytes(file.bytes!),
       // );
@@ -126,10 +126,11 @@ abstract class VFileUtils {
     return 000;
   }
 
-  static Future<VPlatformFileSource> compressImage(
-      {required VPlatformFileSource fileSource,
-      int compressAt = 1500 * 1000,
-      int quality = 50}) async {
+  static Future<VPlatformFileSource> compressImage({
+    required VPlatformFileSource fileSource,
+    int compressAt = 1500 * 1000,
+    int quality = 50,
+  }) async {
     if (!fileSource.isFromPath) {
       return fileSource;
     }
