@@ -20,10 +20,10 @@ abstract class ChannelApi extends ChopperService {
   @Post(path: "/peer-room/{identifier}", optionalBody: true)
   Future<Response> getPeerRoom(@Path() String identifier);
 
-  @Post(path: "/{roomId}/close", optionalBody: true)
-  Future<Response> closeChat(
-    @Path("roomId") String roomId,
-  );
+  // @Post(path: "/{roomId}/close", optionalBody: true)
+  // Future<Response> closeChat(
+  //   @Path("roomId") String roomId,
+  // );
 
   @Get(path: "/{roomId}")
   Future<Response> getRoomById(@Path() String roomId);
@@ -34,6 +34,19 @@ abstract class ChannelApi extends ChopperService {
   Future<Response> changeRoomNotification(
     @Path() String roomId,
     @Body() Map<String, dynamic> body,
+  );
+
+  ///deliver room messages
+  @Patch(path: "/{roomId}/translate", optionalBody: true)
+  Future<Response> transTo(
+    @Path() String roomId,
+    @Body() Map<String, dynamic> body,
+  );
+
+  /// translate/stop
+  @Patch(path: "/{roomId}/translate/stop", optionalBody: true)
+  Future<Response> stopRoomAutoTranslate(
+    @Path() String roomId,
   );
 
   ///delete room

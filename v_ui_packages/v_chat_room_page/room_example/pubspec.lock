@@ -65,14 +65,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
-  auto_size_text:
-    dependency: transitive
-    description:
-      name: auto_size_text
-      sha256: "3f5261cd3fb5f2a9ab4e2fc3fba84fd9fcaac8821f20a1d4e71f557521b22599"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.0"
   badges:
     dependency: transitive
     description:
@@ -1616,14 +1608,14 @@ packages:
       path: "../../../v_shared_packages/v_chat_input_ui"
       relative: true
     source: path
-    version: "0.6.1+1"
+    version: "0.6.2"
   v_chat_media_editor:
     dependency: "direct overridden"
     description:
       path: "../../../v_shared_packages/v_chat_media_editor"
       relative: true
     source: path
-    version: "0.6.1"
+    version: "0.6.2"
   v_chat_mention_controller:
     dependency: transitive
     description:
@@ -1638,35 +1630,35 @@ packages:
       path: "../../v_chat_message_page"
       relative: true
     source: path
-    version: "0.6.1+2"
+    version: "0.6.2+1"
   v_chat_room_page:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "0.6.1"
+    version: "0.6.2"
   v_chat_sdk_core:
     dependency: "direct main"
     description:
       path: "../../../core_packages/v_chat_sdk_core"
       relative: true
     source: path
-    version: "0.6.1+1"
+    version: "0.6.2+2"
   v_chat_utils:
     dependency: "direct main"
     description:
       path: "../../../core_packages/v_chat_utils"
       relative: true
     source: path
-    version: "0.6.1"
+    version: "0.6.2"
   v_chat_voice_player:
     dependency: "direct overridden"
     description:
       path: "../../../v_shared_packages/v_chat_voice_player"
       relative: true
     source: path
-    version: "0.6.1"
+    version: "0.6.2"
   vector_math:
     dependency: transitive
     description:

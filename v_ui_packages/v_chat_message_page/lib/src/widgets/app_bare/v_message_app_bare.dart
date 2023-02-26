@@ -19,6 +19,8 @@ class VMessageAppBare extends StatelessWidget {
   final VoidCallback onSearch;
   final VoidCallback onViewMedia;
   final Function(bool isVideo) onCreateCall;
+  final Function(bool isBlocked) onUpdateBlock;
+  final bool isCallsAllow;
 
   const VMessageAppBare({
     Key? key,
@@ -27,6 +29,8 @@ class VMessageAppBare extends StatelessWidget {
     required this.onSearch,
     required this.onCreateCall,
     required this.onViewMedia,
+    required this.onUpdateBlock,
+    required this.isCallsAllow,
   }) : super(key: key);
 
   @override
@@ -63,47 +67,98 @@ class VMessageAppBare extends StatelessWidget {
         _getCallIcon(),
         PopupMenuButton(
           onSelected: (value) {
+            //don't not translate
             if (value == 'Search') {
               onSearch();
               //focusNode.requestFocus();
               // controller.toggleSearchMode();
               // onSearchClicked();
+              //don't not translate
             } else if (value == 'media') {
               onViewMedia();
+              //don't not translate
+            } else if (value == 'block') {
+              onUpdateBlock(true);
+              //don't not translate
+            } else if (value == 'un_block') {
+              onUpdateBlock(false);
             }
           },
-          itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
-            PopupMenuItem(
-              value: "Search",
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.search,
-                    color: context.isDark ? Colors.white : Colors.black,
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text(VTrans.of(context).labels.search),
-                ],
+          itemBuilder: (BuildContext context) {
+            final l = <PopupMenuItem<String>>[
+              PopupMenuItem(
+                //don't not translate
+                value: "Search",
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.search,
+                      color: context.isDark ? Colors.white : Colors.black,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(VTrans.of(context).labels.search),
+                  ],
+                ),
               ),
-            ),
-            PopupMenuItem(
-              value: "media",
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.image,
-                    color: context.isDark ? Colors.white : Colors.black,
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text(VTrans.of(context).labels.media),
-                ],
+              PopupMenuItem(
+                //don't not translate
+                value: "media",
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.image,
+                      color: context.isDark ? Colors.white : Colors.black,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(VTrans.of(context).labels.media),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ];
+            if (state.roomType.isSingleOrOrder) {
+              final map = VAppPref.getMap("ban-${state.roomId}");
+              final banModel = map == null ? null : VCheckBanModel.fromMap(map);
+              if (banModel == null || !banModel.isMeBanner) {
+                l.add(PopupMenuItem(
+                  value: "block",
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.block,
+                        color: Colors.red,
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text(VTrans.of(context).labels.block),
+                    ],
+                  ),
+                ));
+              } else {
+                l.add(PopupMenuItem(
+                  //don't not translate
+                  value: "un_block",
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.security,
+                        color: context.isDark ? Colors.white : Colors.black,
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text(VTrans.of(context).labels.unBlock),
+                    ],
+                  ),
+                ));
+              }
+            }
+            return l;
+          },
         )
       ],
     );
@@ -135,18 +190,26 @@ class VMessageAppBare extends StatelessWidget {
       return Row(
         children: [
           InkWell(
-            onTap: () => onCreateCall(true),
-            child: const Icon(
+            onTap: () {
+              if (!isCallsAllow) return;
+              onCreateCall(true);
+            },
+            child: Icon(
               PhosphorIcons.videoCameraFill,
+              color: isCallsAllow ? null : Colors.grey,
             ),
           ),
           const SizedBox(
             width: 20,
           ),
           InkWell(
-            onTap: () => onCreateCall(false),
-            child: const Icon(
+            onTap: () {
+              if (!isCallsAllow) return;
+              onCreateCall(false);
+            },
+            child: Icon(
               PhosphorIcons.phoneCallFill,
+              color: isCallsAllow ? null : Colors.grey,
             ),
           ),
         ],
