@@ -22,7 +22,7 @@ class MessageTextFiled extends StatefulWidget {
   const MessageTextFiled({
     super.key,
     required this.textEditingController,
-    this.cursor ,
+    this.cursor,
     required this.focusNode,
     required this.onShowEmoji,
     required this.onCameraPress,

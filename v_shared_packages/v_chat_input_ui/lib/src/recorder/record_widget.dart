@@ -151,7 +151,7 @@ class RecordWidgetState extends State<RecordWidget> {
               //     ),
               //   )
               // else
-                const Text("")
+              const Text("")
             ],
           ),
           const SizedBox(
